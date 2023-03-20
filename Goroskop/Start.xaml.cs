@@ -15,6 +15,7 @@ namespace Goroskop
         public List<Button> buttons { get; set; }
         List<ContentPage> pages { get; set; }
         Picker pk;
+        DatePicker dp;
         Image imgs;
         List<string> files;
         public Start()
@@ -25,7 +26,7 @@ namespace Goroskop
             files = new List<string> { "cat.jpg", "cat2.jpg", "cat3.jpg" };
             List<string> dirs = new List<string> { "Poke", "Premier", "Safari" };
             Random rnd = new Random();
-            for (int i = 0; i < files.Count; i++)
+            /*for (int i = 0; i < files.Count; i++)
             {
                 Button b = new Button
                 {
@@ -38,7 +39,15 @@ namespace Goroskop
 
                 Alamleht p = new Alamleht(dirs[i], files[i]);
                 pages.Add(p);
-            }
+            }*/
+            dp = new DatePicker
+            {
+                Format = "D",
+                MinimumDate = DateTime.Now.AddDays(-7),
+                MaximumDate = DateTime.Now.AddDays(7),
+            };
+            dp.DateSelected += Dp_DateSelected;
+
             pk = new Picker
             {
                 ItemsSource = dirs,
@@ -60,6 +69,11 @@ namespace Goroskop
             st.Children.Add(pk);
             Content = st;
         }
+        private void Dp_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            lbl.Text = "Kuupäev: " + e.NewDate.ToString("d");
+        }
+
         int i = 0;
         private void Swipe_Swiped(object sender, SwipedEventArgs e)
         {
